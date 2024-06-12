@@ -96,7 +96,7 @@ app.get('/', (req, res) => {
   res.send(`
     <html>
       <head>
-        <title>Welcome</title>
+        <title>local or online storage</title>
         <style>
           body { font-family: Arial, sans-serif; text-align: center; margin-top: 50px; }
           a { text-decoration: none; color: #007bff; }
