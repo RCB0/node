@@ -1,0 +1,92 @@
+<html>
+      <head>
+        <title>Welcome</title>
+        <style>
+            body { font-family: Arial, sans-serif; text-align: center; margin-top: 1px; }
+            a { text-decoration: none; color: #007bff; }
+            a:hover { text-decoration: underline; }
+            #drop-area { 
+              border: 2px dashed #ccc; 
+              padding: 20px; 
+              margin-bottom: 2px; 
+              width: 200px; /* Adjust the width to make it square */
+              height: 200px; /* Set the height to match the width for a square */
+              display: flex;
+              justify-content: center;
+              align-items: center;
+            }
+            #drop-area.highlight { border-color: #007bff; }
+          </style>
+          
+      </head>
+      <body>
+        <h1>Welcome to the Facebook Data App</h1>
+        <p><a href="/facebook-data">View Facebook Data</a></p>
+        <div id="drop-area">
+          <h2>Drag & Drop files here</h2>
+          <p>or</p>
+          <input type="file" id="fileElem" multiple accept="image/*" style="display: none;">
+          <label class="button" for="fileElem">Choose a file from your device</label>
+        </div>
+        <h2>Uploaded Files</h2>
+        <ul>
+          ${getUploadedFiles()}
+        </ul>
+      </body>
+      <script>
+        const dropArea = document.getElementById('drop-area');
+
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+          dropArea.addEventListener(eventName, preventDefaults, false)
+        });
+
+        function preventDefaults (e) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+          dropArea.addEventListener(eventName, highlight, false)
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+          dropArea.addEventListener(eventName, unhighlight, false)
+        });
+
+        function highlight(e) {
+          dropArea.classList.add('highlight');
+        }
+
+        function unhighlight(e) {
+          dropArea.classList.remove('highlight');
+        }
+
+        dropArea.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+          const dt = e.dataTransfer;
+          const files = dt.files;
+
+          handleFiles(files);
+        }
+
+        function handleFiles(files) {
+          [...files].forEach(uploadFile);
+        }
+
+        async function uploadFile(file) {
+          const formData = new FormData();
+          formData.append('file', file);
+
+          try {
+            const response = await fetch('/upload', {
+              method: 'POST',
+              body: formData
+            });
+            console.log('File uploaded successfully:', file.name);
+          } catch (error) {
+            console.error('Error uploading file:', error);
+          }
+        }
+      </script>
+    </html>
