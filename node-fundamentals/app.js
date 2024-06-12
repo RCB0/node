@@ -12,6 +12,9 @@ const socketIo = require('socket.io');
 require('dotenv').config();
 const app = express();
 const PORT = 3000;
+const firebase = require('firebase/app');
+require('firebase/firestore'); // If you're using Firestore
+require('firebase/database'); // If you're using Realtime Database
 
 // Initialize HTTP server and socket.io
 const server = http.createServer(app);
