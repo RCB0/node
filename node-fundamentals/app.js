@@ -10,12 +10,6 @@ const progress = require('progress-stream');
 const http = require('http');
 const socketIo = require('socket.io');
 require('dotenv').config();
-const { Client } = require('pg');
-const client = new Client({
-  connectionString: process.env.DATABASE_URL,
-});
-client.connect();
-
 const app = express();
 const PORT = 3000;
 
@@ -309,7 +303,6 @@ const db = firebase.firestore();
 const database = firebase.database();
 //////////////////////////////////////////
 
-firebase.initializeApp(firebaseConfig);
 //////////////////////////////////////////////////
 
 
