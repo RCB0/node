@@ -10,6 +10,11 @@ const progress = require('progress-stream');
 const http = require('http');
 const socketIo = require('socket.io');
 require('dotenv').config();
+const { Client } = require('pg');
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+});
+client.connect();
 
 const app = express();
 const PORT = 3000;
@@ -269,6 +274,51 @@ app.post('/post', isAuthenticated, async (req, res) => {
     res.status(500).send('An error occurred while posting to Facebook');
   }
 });
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////
+const firebase = require('firebase/app');
+require('firebase/firestore'); // If using Firestore
+require('firebase/database'); // If using Realtime Database
+
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA6jBZpJAVCR86jfOJi02UwMIABFWSOgkw",
+  authDomain: "online-filemanager.firebaseapp.com",
+  projectId: "online-filemanager",
+  storageBucket: "online-filemanager.appspot.com",
+  messagingSenderId: "31774550495",
+  appId: "1:31774550495:web:85f6a0c068d11edb2f3c6a",
+  measurementId: "G-YHTELEP8JH"
+};
+
+
+firebase.initializeApp(firebaseConfig);
+
+// For Firestore
+const db = firebase.firestore();
+
+// For Realtime Database
+const database = firebase.database();
+//////////////////////////////////////////
+
+firebase.initializeApp(firebaseConfig);
+//////////////////////////////////////////////////
+
+
+
+
+
+
+
+
 
 // Start the server
 server.listen(PORT, () => {
